@@ -1,0 +1,22 @@
+{
+  "name": "ejs-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev":"node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "lodash": "^4.17.11",
+    "nodemon": "^2.0.6"
+  }
+  ,"engines": {
+    "node":"12.18.3"
+  }
+}
