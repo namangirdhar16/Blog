@@ -2,6 +2,7 @@
 <%- include("./partials/header.ejs"); -%>
     <% posts.forEach((post)=>{ %>
         <h1><%=post.postTitle%></h1>
+        <h6>Author - <em><%=post.createdBy%></em></h6>
         
         <p><%=post.postBody.substring(0,100)+"..."%><a href="/posts/<%=post._id%>">Read More</a> </p>
         

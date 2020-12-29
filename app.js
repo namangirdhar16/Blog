@@ -30,7 +30,9 @@ const postSchema = {
   postTitle :String ,
   postBody : String , 
   postValidation: String,
+  createdBy: String ,
 };
+
 
 const Post = mongoose.model("Post",postSchema);
 
@@ -42,8 +44,10 @@ app.get('/',(req,res)=>{
   
   Post.find({},(err,posts)=>{
     posts.unshift({
+      
       postTitle:'Home Page',
       postBody: homeStartingContent , 
+      createdBy: 'Admin',
     });
    
     if(err)
@@ -81,6 +85,7 @@ app.post('/compose',(req,res)=>{
       postTitle : req.body.postTitle , 
       postBody : req.body.postBody , 
       postValidation : lodash.lowerCase(req.body.postTitle) ,
+      createdBy: req.body.createdBy,
    }) ; 
     post.save();
    res.redirect("/");
@@ -132,6 +137,7 @@ const requestedPostId = req.params.postId;
       return res.render("post",{post:{
         postTitle:'Invalid Search',
         postBody:'Oops, No Such post exists!',
+        createdBy:'None',
       }})
       else
       res.render("post",{post:post});
@@ -160,6 +166,7 @@ app.post("/delete",(req,res)=>{
      return res.render("post",{post:{
        postTitle:`Sorry you don't have the access to delete home page content`,
        postBody: 'Delete Some Other post',
+       createdBy:'None',
      }})
    }
    else if(objectID.isValid(deleteTitle))
@@ -169,6 +176,7 @@ app.post("/delete",(req,res)=>{
        return res.render("post",{post:{
          postTitle:'Invalid post',
          postBody:'No such post exits!',
+         createdBy:'None',
        }})
        res.redirect("/delete/"+post.postValidation) ;
      })
@@ -181,6 +189,7 @@ app.post("/delete",(req,res)=>{
        return res.render("post",{post:{
          postTitle:'Invalid post',
          postBody:'No such post exits!',
+         createdBy: 'None',
        }})
        res.redirect("/delete/"+post.postValidation) ;
      })
@@ -195,7 +204,10 @@ app.get("/delete/:searchTitle",(req,res)=>{
     res.redirect("/");
 })
 
-
+app.get("/deleteAll",(req,res)=>{
+  Post.deleteAll({});
+  res.redirect("/");
+})
 
 var port_number = server.listen(process.env.PORT || 3000,()=>{
     console.log(`server is up and running on port 3000`) ; 
