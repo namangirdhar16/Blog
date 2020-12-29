@@ -1,0 +1,14 @@
+<%- include("./partials/header.ejs") -%>
+<h1>Enter post name to delete</h1>
+<form action="/delete" method="POST">
+    <div class="mb-3">
+        <label for="title" class="form-label">Enter Post's Name</label>
+        <input type="text" name="postTitle" class="form-control" id="title" aria-describedby="emailHelp"
+            autoComplete="false">
+
+    </div>
+
+
+    <button type="submit" class="btn btn-primary compose-button">Delete</button>
+</form>
+<%- include("./partials/footer.ejs") -%>
