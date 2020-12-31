@@ -34,7 +34,7 @@ const postSchema = new mongoose.Schema({
   postValidation: String,
   createdBy: String ,
   
-},{timestamps:true});
+},{timestamps:{createdAt:true}});
 
 
 const Post = mongoose.model("Post",postSchema);
@@ -51,6 +51,7 @@ app.get('/',(req,res)=>{
       postTitle:'Home Page',
       postBody: homeStartingContent , 
       createdBy: 'Admin',
+      createdAt: 'Tue Dec 29 2020',
       
     });
    

@@ -1,6 +1,10 @@
 
 <%- include("./partials/header.ejs"); -%>
 <h1><%=post.postTitle%></h1>
-<h6>Author - <em><%=post.createdBy%></em></h6>
+        <h6>Author - <em><strong>
+                    <%=post.createdBy%>
+                </strong> </em>
+            <%=post.createdAt.toString().substring(0,16)%>
+        </h6>
 <p><%=post.postBody%></p>
 <%- include("./partials/footer.ejs"); -%>
