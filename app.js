@@ -28,12 +28,13 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb+srv://naman1611:"+process.env.password+"@cluster0.vjofi.mongodb.net/blogDB?retryWrites=true&w=majority/blogDB",{useNewUrlParser:true , useUnifiedTopology:true }) ;
 
-const postSchema = {
+const postSchema = new mongoose.Schema({
   postTitle :String ,
   postBody : String , 
   postValidation: String,
   createdBy: String ,
-};
+  
+},{timestamps:true});
 
 
 const Post = mongoose.model("Post",postSchema);
@@ -50,6 +51,7 @@ app.get('/',(req,res)=>{
       postTitle:'Home Page',
       postBody: homeStartingContent , 
       createdBy: 'Admin',
+      
     });
    
     if(err)
