@@ -8,6 +8,10 @@ const  mongoose = require("mongoose");
 const objectID = mongoose.Types.ObjectId;
 require('dotenv').config();
 
+const session = require('express-session');
+const passport = require('passport');
+const passportLocalMongoose = require('passport-local-mongoose');
+mongoose.set('useCreateIndex', true);
 
 
 
@@ -25,6 +29,29 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+
+app.use(session({
+  secret: 'This is the secret',
+  resave: false,
+  saveUninitialised:false,
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const UserSchema = new mongoose.Schema({
+  userEmail: String,
+  password: String,
+})
+
+UserSchema.plugin(passportLocalMongoose);
+
+const User = mongoose.model('User',UserSchema);
+
+passport.use(User.createStrategy());
+ 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect("mongodb+srv://naman1611:"+process.env.password+"@cluster0.vjofi.mongodb.net/blogDB?retryWrites=true&w=majority/blogDB",{useNewUrlParser:true , useUnifiedTopology:true }) ;
 
@@ -214,6 +241,44 @@ app.get("/deleteAll",(req,res)=>{
   res.redirect("/");
 })
 
+
+app.get('/signIn',(req,res)=>{
+  res.render("signIn");
+})
+
+app.get('/signUp',(req,res)=>{
+  res.render("signUp");
+})
+
+app.get('/allposts',(req,res)=>{
+    if(req.isAuthenticated())
+    {
+       res.render('allposts');
+    }
+    else
+    {
+       res.redirect('/signIn');
+    }
+})
+app.post('/signIn',(req,res)=>{
+  
+})
+
+app.post('/signUp',(req,res)=>{
+   User.register({userEmail:req.body.userEmail},req.body.password,(err,user)=>{
+     if(err)
+     {
+       console.log(err);
+       res.redirect('/signIn');
+     }
+     else
+     {
+       passport.authenticate('local')(req,res,()=>{
+         res.redirect('/allposts');
+       })
+     }
+   })
+})
 var port_number = server.listen(process.env.PORT || 3000,()=>{
     console.log(`server is up and running on port 3000`) ; 
 });

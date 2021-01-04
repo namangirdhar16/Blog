@@ -1,0 +1,27 @@
+<%- include("./partials/header.ejs"); -%>
+    <h1>Sign In</h1>
+    <!-- <form action = "/compose" method="POST">
+        
+        <label for="title">Title</label>
+        <input type="text" id="title" name = "postTitle">
+        <label for="content" >Content</label>
+        <textarea id="content"></textarea>
+        <button type="submit" class="submit">Publish</button>
+    </form> -->
+    <form action="/signIn" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Email</label>
+            <input type="email" name="useremail" class="form-control" id="title" aria-describedby="emailHelp"
+                autocomplete="off" required>
+
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="title" aria-describedby="emailHelp"
+                autocomplete="off" required>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary compose-button">Sign Up</button>
+    </form>
+    <%- include("./partials/footer.ejs"); -%>
